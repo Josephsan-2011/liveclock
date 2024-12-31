@@ -4,54 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Clock</title>
-    
-    <!-- Link to Google Fonts (Lora Regular 400) -->
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400&display=swap" rel="stylesheet">
-
     <style>
-        /* Apply the Lora Regular font to the clock */
-        #clock {
-            font-family: 'Lora', serif; /* Use the Google Font 'Lora' */
-            font-size: 48px;
-            font-weight: 400; /* Regular weight */
-            color: #333;
-            text-align: center;
-            padding: 20px;
-            background-color: transparent;
-            width: 300px;
-            margin: 100px auto;
-            border-radius: 10px;
+        /* Ensure body and html fill the screen and remove any default margins */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            overflow: hidden; /* Prevent overflow of elements */
         }
 
-        /* Style for the seconds part of the clock */
+        /* The clock element */
+        #clock {
+            font-family: 'Lora', serif; /* Your chosen font */
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            box-sizing: border-box;
+            white-space: nowrap; /* Prevent line breaks */
+        }
+
+        /* The second span will be red */
         #seconds {
-            color: red; /* Make seconds text red */
+            color: red;
         }
     </style>
 </head>
 <body>
-    <div id="clock"></div>
+    <div id="clock">
+        <span id="time"></span>
+    </div>
 
     <script>
-        // Function to update the clock
+        // Function to update the clock every second
         function updateClock() {
-            var now = new Date(); // Get current date and time
-            var hours = now.getHours().toString().padStart(2, '0'); // Get hours with leading zero
-            var minutes = now.getMinutes().toString().padStart(2, '0'); // Get minutes with leading zero
-            var seconds = now.getSeconds().toString().padStart(2, '0'); // Get seconds with leading zero
-
-            // Format time as HH:MM:<span id="seconds">SS</span>
-            var timeString = hours + ':' + minutes + ':' + '<span id="seconds">' + seconds + '</span>';
-
-            // Display time in the HTML element with ID 'clock'
-            document.getElementById('clock').innerHTML = timeString;
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            var timeString = `${hours}:${minutes}:<span id="seconds">${seconds}</span>`;
+            document.getElementById('time').innerHTML = timeString;
+            
+            // Dynamically adjust font size based on the screen size
+            adjustFontSize();
         }
 
-        // Call the updateClock function every 1000ms (1 second)
-        setInterval(updateClock, 1000);
+        // Function to adjust the font size based on screen size
+        function adjustFontSize() {
+            var clock = document.getElementById('clock');
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
 
-        // Initial clock update when the page loads
-        updateClock();
+            // Calculate the font size as a percentage of the viewport width and height
+            var fontSize = Math.min(windowWidth, windowHeight) / 6; // Adjust divisor for desired size
+
+            // Apply the calculated font size to the clock
+            clock.style.fontSize = fontSize + 'px';
+        }
+
+        // Update the clock every 1000ms (1 second)
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial clock update when the page loads
+
+        // Adjust font size when the window is resized
+        window.addEventListener('resize', adjustFontSize);
     </script>
 </body>
 </html>
