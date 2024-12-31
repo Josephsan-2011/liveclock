@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Clock</title>
     <style>
-        /* Ensure body and html fill the screen and remove any default margins */
         body, html {
             margin: 0;
             padding: 0;
@@ -14,24 +13,24 @@
             justify-content: center;
             align-items: center;
             background-color: #fff;
-            overflow: hidden; /* Prevent overflow of elements */
+            overflow: hidden;
         }
 
-        /* The clock element */
         #clock {
-            font-family: 'Lora', serif; /* Your chosen font */
-            font-weight: bold;
+            font-family: 'Lora', serif;
+            font-weight: 400;
             color: #333;
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
             box-sizing: border-box;
-            white-space: nowrap; /* Prevent line breaks */
+            white-space: nowrap;
         }
 
-        /* The second span will be red */
         #seconds {
             color: red;
         }
@@ -43,39 +42,35 @@
     </div>
 
     <script>
-        // Function to update the clock every second
         function updateClock() {
             var now = new Date();
-            var hours = now.getHours().toString().padStart(2, '0');
+            var hours = now.getHours() % 12 || 12; // Get hours and reset after 12
             var minutes = now.getMinutes().toString().padStart(2, '0');
             var seconds = now.getSeconds().toString().padStart(2, '0');
-            
+
+            // Ensure that numbers cycle through 1-12
             var timeString = `${hours}:${minutes}:<span id="seconds">${seconds}</span>`;
             document.getElementById('time').innerHTML = timeString;
-            
-            // Dynamically adjust font size based on the screen size
+
             adjustFontSize();
         }
 
-        // Function to adjust the font size based on screen size
         function adjustFontSize() {
             var clock = document.getElementById('clock');
             var windowWidth = window.innerWidth;
             var windowHeight = window.innerHeight;
 
-            // Calculate the font size as a percentage of the viewport width and height
-            var fontSize = Math.min(windowWidth, windowHeight) / 6; // Adjust divisor for desired size
+            // Use the smaller of the two dimensions to calculate the font size
+            var fontSize = Math.min(windowWidth, windowHeight) / 3; // Adjust the divisor to control the size
 
-            // Apply the calculated font size to the clock
+            // Set the font size dynamically
             clock.style.fontSize = fontSize + 'px';
         }
 
-        // Update the clock every 1000ms (1 second)
         setInterval(updateClock, 1000);
-        updateClock(); // Initial clock update when the page loads
-
-        // Adjust font size when the window is resized
+        updateClock();
         window.addEventListener('resize', adjustFontSize);
     </script>
 </body>
 </html>
+a
