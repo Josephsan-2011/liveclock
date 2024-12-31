@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Clock</title>
+    
+    <!-- Link to Google Fonts (Lora Regular 400) -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        /* Apply the Lora Regular font to the clock */
+        #clock {
+            font-family: 'Lora', serif; /* Use the Google Font 'Lora' */
+            font-size: 48px;
+            font-weight: 400; /* Regular weight */
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            background-color: transparent;
+            width: 300px;
+            margin: 100px auto;
+            border-radius: 10px;
+        }
+
+        /* Style for the seconds part of the clock */
+        #seconds {
+            color: red; /* Make seconds text red */
+        }
+    </style>
+</head>
+<body>
+    <div id="clock"></div>
+
+    <script>
+        // Function to update the clock
+        function updateClock() {
+            var now = new Date(); // Get current date and time
+            var hours = now.getHours().toString().padStart(2, '0'); // Get hours with leading zero
+            var minutes = now.getMinutes().toString().padStart(2, '0'); // Get minutes with leading zero
+            var seconds = now.getSeconds().toString().padStart(2, '0'); // Get seconds with leading zero
+
+            // Format time as HH:MM:<span id="seconds">SS</span>
+            var timeString = hours + ':' + minutes + ':' + '<span id="seconds">' + seconds + '</span>';
+
+            // Display time in the HTML element with ID 'clock'
+            document.getElementById('clock').innerHTML = timeString;
+        }
+
+        // Call the updateClock function every 1000ms (1 second)
+        setInterval(updateClock, 1000);
+
+        // Initial clock update when the page loads
+        updateClock();
+    </script>
+</body>
+</html>
